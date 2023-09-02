@@ -1,7 +1,7 @@
 import Container from '@/components/ui/Container';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const Loading = () => {
+function Loading(): JSX.Element {
   return (
     <Container>
       <div className='h-full w-full p-8'>
@@ -17,6 +17,6 @@ const Loading = () => {
       </div>
     </Container>
   );
-};
+}
 
 export default Loading;

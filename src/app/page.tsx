@@ -3,6 +3,7 @@ import { ShoppingBag } from 'lucide-react';
 import ProductList from '@/components/ProductList';
 import { Button } from '@/components/ui/button';
 import Container from '@/components/ui/Container';
+import { LoginIsRequiredServer } from '@/lib/auth/LoginIsRequiredServer';
 
 const products = [
   {
@@ -63,7 +64,9 @@ const products = [
   },
 ];
 
-export default function Home(): JSX.Element {
+export default async function Home(): Promise<JSX.Element> {
+  await LoginIsRequiredServer();
+
   return (
     <Container>
       <div className='space-y-10 pb-10'>

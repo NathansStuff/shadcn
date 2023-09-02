@@ -8,7 +8,7 @@ function Login(): JSX.Element {
     <div className='flex-center h-screen flex-col bg-[#11A37F] text-center'>
       <Image src='https://links.papareact.com/2i6' width={300} height={300} alt='logo' />
       <button
-        onClick={(): Promise<SignInResponse | undefined> => signIn('google')}
+        onClick={(): Promise<SignInResponse | undefined> => signIn('google', { callbackUrl: '/' })}
         className='animate-pulse text-3xl font-bold text-white'
       >
         Sign In to use ConstructionGPT
