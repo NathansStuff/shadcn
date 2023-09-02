@@ -1,3 +1,7 @@
+'use client';
+
+import { signOut, useSession } from 'next-auth/react';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -9,11 +13,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 function ProfileButton(): JSX.Element {
+  const { data: session } = useSession();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src='/img/shadcn.jpg' />
+          <AvatarImage src={session?.user?.image ?? '/img/shadcn.jpg'} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -24,7 +30,9 @@ function ProfileButton(): JSX.Element {
         <DropdownMenuItem className='cursor-pointer'>Billing</DropdownMenuItem>
         <DropdownMenuItem className='cursor-pointer'>Subscription</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className='cursor-pointer'>Log Out</DropdownMenuItem>
+        <DropdownMenuItem onClick={(): Promise<undefined> => signOut()} className='cursor-pointer'>
+          Log Out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
