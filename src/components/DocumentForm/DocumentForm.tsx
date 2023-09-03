@@ -34,7 +34,7 @@ export function DocumentForm(): JSX.Element {
   });
 
   function onSubmit(values: Document): void {
-    console.log(values);
+    console.log('onSubmit', values);
     sendDocument(values);
   }
 

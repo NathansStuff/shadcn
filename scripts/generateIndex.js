@@ -2,9 +2,20 @@ const fs = require('fs');
 const path = require('path');
 
 const srcPath = path.resolve(__dirname, '../src');
+const apiPath = path.resolve(srcPath, 'pages/api');
+
+function isSubFolder(childPath, parentPath) {
+  const relative = path.relative(parentPath, childPath);
+  return !!relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+}
 
 function shouldIgnoreFolder(dir) {
   const indexPath = path.join(dir, 'index.ts');
+
+  // If the directory is under the src/pages/api directory, ignore.
+  if (isSubFolder(dir, apiPath)) {
+    return true;
+  }
 
   // If index.ts doesn't exist, return true (meaning ignore the folder).
   if (!fs.existsSync(indexPath)) {
@@ -25,8 +36,16 @@ function generateIndexForDir(dir) {
 
   const exports = files
     .filter((file) => {
-      const excludedPatterns = ['.test.ts', '.test.js', '.test.tsx', '.test.jsx'];
-      return !excludedPatterns.some((pattern) => file.endsWith(pattern)) && file !== 'index.ts';
+      const excludedPatterns = [
+        '.test.ts',
+        '.test.js',
+        '.test.tsx',
+        '.test.jsx',
+      ];
+      return (
+        !excludedPatterns.some((pattern) => file.endsWith(pattern)) &&
+        file !== 'index.ts'
+      );
     })
     .map((file) => {
       const fileNameWithoutExtension = path.basename(file, path.extname(file));
