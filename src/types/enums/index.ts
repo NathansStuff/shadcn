@@ -4,4 +4,6 @@ export * from './ECountryCode';
 export * from './EEmbedTemplate';
 export * from './EIndustry';
 export * from './EModel';
+export * from './ENamespace';
 export * from './EPromptTemplate';
+export * from './EStateCode';
