@@ -14,14 +14,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '..';
+interface SelectFieldProps<T extends FieldValues> {
+  label: string;
+  placeholder: string;
+  name: Path<T>;
+  control: Control<T>;
+  options: ISelectOption[];
+}
 
-export function renderSelectField<T extends FieldValues>(
-  label: string,
-  placeholder: string,
-  name: Path<T>,
-  options: ISelectOption[],
-  control: Control<T>
+export function SelectField<T extends FieldValues>(
+  props: SelectFieldProps<T>
 ): JSX.Element {
+  const { label, placeholder, name, control, options } = props;
   return (
     <FormField
       control={control}

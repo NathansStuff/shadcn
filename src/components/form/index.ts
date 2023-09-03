@@ -1,3 +1,3 @@
-export * from './renderInputField';
-export * from './renderSelectField';
+export * from './InputField';
 export * from './renderTextArea';
+export * from './SelectField';

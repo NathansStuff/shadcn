@@ -1,6 +1,7 @@
 // @script ignore-folder
 import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from '@/constants';
 import {
+  Document,
   EAiInfoTemplate,
   EComponentType,
   ECountryCode,
@@ -10,11 +11,9 @@ import {
   EStateCode,
 } from '@/types';
 
-import { DocumentFormSchema } from '.';
-
-export const documentFormDefaults: DocumentFormSchema = {
+export const documentFormDefaults: Document = {
   documentName: '',
-  defaultSourceLink: '',
+  infoIds: [],
   defaultMetadata: {
     general: {
       sourceName: '',

@@ -2,12 +2,17 @@ import { Control, FieldValues, Path } from 'react-hook-form';
 
 import { FormControl, FormField, FormItem, FormLabel, Input } from '..';
 
-export function renderInputField<T extends FieldValues>(
-  label: string,
-  placeholder: string,
-  name: Path<T>,
-  control: Control<T>
+interface InputFieldProps<T extends FieldValues> {
+  label: string;
+  placeholder: string;
+  name: Path<T>;
+  control: Control<T>;
+}
+
+export function InputField<T extends FieldValues>(
+  props: InputFieldProps<T>
 ): JSX.Element {
+  const { label, placeholder, name, control } = props;
   return (
     <FormField
       control={control}

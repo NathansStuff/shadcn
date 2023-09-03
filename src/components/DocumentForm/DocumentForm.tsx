@@ -1,48 +1,47 @@
-'use client';
-
 import { Control, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { sendDocument } from '@/actions';
-import { Document } from '@/types';
 import {
   aiInfoTemplateCodes,
   componentTypeCodes,
   countryCodes,
+  Document,
   embedTemplateCodes,
   industryCodes,
   namespaceCodes,
   stateCodes,
-} from '@/types/enums';
+} from '@/types';
 
 import {
   Button,
   FlexCenterContainer,
   FlexRowContainer,
   Form,
-  renderInputField,
-  renderSelectField,
+  InputField,
   renderTextarea,
+  SelectField,
 } from '..';
 
 import { documentFormDefaults } from './documentFormDefaults';
+interface DocumentFormProps {
+  handleSubmit: (document: Document) => void;
+  defaultValues?: Document;
+}
 
-export function DocumentForm(): JSX.Element {
+export function DocumentForm({
+  handleSubmit,
+  defaultValues,
+}: DocumentFormProps): JSX.Element {
   const form = useForm<Document>({
     resolver: zodResolver(Document),
-    defaultValues: documentFormDefaults,
+    defaultValues: defaultValues ?? documentFormDefaults,
   });
-
-  function onSubmit(values: Document): void {
-    console.log('onSubmit', values);
-    sendDocument(values);
-  }
 
   return (
     <FlexCenterContainer className='pb-20 pt-4'>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className='w-full space-y-8'
         >
           <DocumentValuesSection control={form.control} />
@@ -67,25 +66,25 @@ function DocumentValuesSection({ control }: ControlProps): JSX.Element {
         Document Values (specific to this document)
       </h3>
       <FlexRowContainer>
-        {renderInputField(
-          'Document Name',
-          'Enter document name',
-          'documentName',
-          control
-        )}
+        <InputField
+          label='Document Name'
+          placeholder='Enter document name'
+          name='documentName'
+          control={control}
+        />
         <FlexRowContainer>
-          {renderInputField(
-            'Split Text Size',
-            'Enter chunk size',
-            'chunkSize',
-            control
-          )}
-          {renderInputField(
-            'Chunk overlap',
-            'Enter chunk overlap',
-            'chunkOverlap',
-            control
-          )}
+          <InputField
+            label='Split Text Size'
+            placeholder='Enter chunk size'
+            name='chunkSize'
+            control={control}
+          />
+          <InputField
+            label='Chunk overlap'
+            placeholder='Enter chunk overlap'
+            name='chunkOverlap'
+            control={control}
+          />
         </FlexRowContainer>
       </FlexRowContainer>
       {renderTextarea('Full Text', 'Enter full text', 'fullText', control)}
@@ -99,25 +98,25 @@ function DefaultValuesSection({ control }: ControlProps): JSX.Element {
       <h3 className='text-center text-xl font-bold'>
         Default Values (used by all the info chunks this generates)
       </h3>
-      {renderInputField(
-        'Default UI Title',
-        'Enter default UI title',
-        'defaultMetadata.ui.uiTitle',
-        control
-      )}
+      <InputField
+        label='Default UI Title'
+        placeholder='Enter default UI title'
+        name='defaultMetadata.ui.uiTitle'
+        control={control}
+      />
       <FlexRowContainer>
-        {renderInputField(
-          'Default Source Link',
-          'Enter default source link',
-          'defaultMetadata.general.sourceLink',
-          control
-        )}
-        {renderInputField(
-          'Default Source Name',
-          'Enter default source name',
-          'defaultMetadata.general.sourceName',
-          control
-        )}
+        <InputField
+          label='Default Source Link'
+          placeholder='Enter default source link'
+          name='defaultMetadata.general.sourceLink'
+          control={control}
+        />
+        <InputField
+          label='Default Source Name'
+          placeholder='Enter default source name'
+          name='defaultMetadata.general.sourceName'
+          control={control}
+        />
       </FlexRowContainer>
       <MetadataSelectionFields control={control} />
     </>
@@ -128,57 +127,57 @@ function MetadataSelectionFields({ control }: ControlProps): JSX.Element {
   return (
     <>
       <FlexRowContainer>
-        {renderSelectField(
-          'Select what country this applies to',
-          'Country',
-          'defaultMetadata.general.countryCode',
-          countryCodes,
-          control
-        )}
-        {renderSelectField(
-          'Select what state this applies to',
-          'State',
-          'defaultMetadata.general.stateCode',
-          stateCodes,
-          control
-        )}
-        {renderSelectField(
-          'Select what industry this applies to',
-          'Industry',
-          'defaultMetadata.general.industry',
-          industryCodes,
-          control
-        )}
-        {renderSelectField(
-          'Select namespace (used for filtering results)',
-          'Namespace',
-          'defaultNamespace',
-          namespaceCodes,
-          control
-        )}
+        <SelectField
+          label='Select what country this applies to'
+          placeholder='Select language'
+          name='defaultMetadata.general.countryCode'
+          control={control}
+          options={countryCodes}
+        />
+        <SelectField
+          label='Select what state this applies to'
+          placeholder='State'
+          name='defaultMetadata.general.stateCode'
+          control={control}
+          options={stateCodes}
+        />
+        <SelectField
+          label='Select what industry this applies to'
+          placeholder='Industry'
+          name='defaultMetadata.general.industry'
+          control={control}
+          options={industryCodes}
+        />
+        <SelectField
+          label='Select namespace (used for filtering results)'
+          placeholder='Namespace'
+          name='defaultNamespace'
+          control={control}
+          options={namespaceCodes}
+        />
       </FlexRowContainer>
       <FlexRowContainer>
-        {renderSelectField(
-          'Select what ai prompt template to apply',
-          'Ai Prompt Template',
-          'defaultMetadata.ai.aiTemplate',
-          aiInfoTemplateCodes,
-          control
-        )}
-        {renderSelectField(
-          'Select what embed template to apply',
-          'Embed Template',
-          'defaultMetadata.embedded.embeddedTemplate',
-          embedTemplateCodes,
-          control
-        )}
-        {renderSelectField(
-          'Select what UI component this will use',
-          'UI Component',
-          'defaultMetadata.ui.componentType',
-          componentTypeCodes,
-          control
-        )}
+        <SelectField
+          label='Select what ai prompt template to apply'
+          placeholder='Ai Prompt Template'
+          name='defaultMetadata.ai.aiTemplate'
+          control={control}
+          options={aiInfoTemplateCodes}
+        />
+        <SelectField
+          label='Select what embed template to apply'
+          placeholder='Embed Template'
+          name='defaultMetadata.embedded.embeddedTemplate'
+          control={control}
+          options={embedTemplateCodes}
+        />
+        <SelectField
+          label='Select what UI component this will use'
+          placeholder='UI Component'
+          name='defaultMetadata.ui.componentType'
+          control={control}
+          options={componentTypeCodes}
+        />
       </FlexRowContainer>
     </>
   );
