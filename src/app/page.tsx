@@ -1,8 +1,6 @@
 import { ShoppingBag } from 'lucide-react';
 
-import ProductList from '@/components/ProductList';
-import { Button } from '@/components/ui/button';
-import Container from '@/components/ui/Container';
+import { Button, PageContainer, ProductList } from '@/components';
 import { LoginIsRequiredServer } from '@/lib/auth/LoginIsRequiredServer';
 
 const products = [
@@ -68,7 +66,7 @@ export default async function Home(): Promise<JSX.Element> {
   await LoginIsRequiredServer();
 
   return (
-    <Container>
+    <PageContainer>
       <div className='space-y-10 pb-10'>
         <div className='overflow-hidden rounded-lg p-4 sm:p-6 lg:p-8'>
           <div
@@ -90,6 +88,6 @@ export default async function Home(): Promise<JSX.Element> {
           <ProductList items={products} />
         </div>
       </div>
-    </Container>
+    </PageContainer>
   );
 }

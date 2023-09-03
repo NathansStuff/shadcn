@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
 
-import ClientProvider from '@/components/providers/Providers';
-import SessionProvider from '@/components/providers/SessionProvider';
+import ClientProvider from '@/providers/Providers';
+import SessionProvider from '@/providers/SessionProvider';
 import { authConfig } from '@/lib/auth/authConfig';
 
 import '@/styles/globals.css';

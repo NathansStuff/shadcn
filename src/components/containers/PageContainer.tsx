@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-function Container({ children }: Props): JSX.Element {
+export function PageContainer({ children }: Props): JSX.Element {
   return (
     <div className='md:w-4xl mx-auto  max-w-7xl'>
       <Header />
@@ -14,5 +14,3 @@ function Container({ children }: Props): JSX.Element {
     </div>
   );
 }
-
-export default Container;

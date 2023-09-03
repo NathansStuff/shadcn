@@ -54,8 +54,7 @@
         "identifiers": true,
         "templates": true,
         "lang": "en_US",
-        "skipWords": [
-          // own names
+        "skipWords": [// own names
           "utils",
           "autoprefixer",
           "eslint",
@@ -84,9 +83,32 @@
           "cva", // module => class-variance-authority
           "stringify", // in JSON.stringify
           "cwd", // in node api
+          "pinecone", // module => pinecone
+          "openai", // module => openai
+          "zod", // module => zod
+          "tiktoken", // module => tiktoken,
+          "langchain", // module => langchain,
+          "loc", // from langchain
+          "upserted", // from langchain
+
 
           // various
           "Na", // in NaN - NaN is mishandled by the plugin
+          "todos",
+          "workcover",
+          "offence", // US spelling
+          "infos",
+
+          // openai
+           "gpt3",
+           "gpt",
+           "embeddings",
+           "ada",
+           "babbage",
+           "davinci",
+           "textcompletion",
+           "chatcompletion",
+           "splitter",
 
           //file extensions
           "css",
@@ -98,8 +120,17 @@
           "png",
           "scss",
           "tpl",
+          "tsx",
 
           // programming gibberish
+          "textarea",
+          "dotenv",
+          "enums",
+          "timestamps",
+          "upsert",
+          "req",
+          "enum",
+          "namespace",
           "href",
           "addon",
           "addons",
@@ -285,8 +316,7 @@
           "foo",
           "bar",
           "baz",
-          "quux"
-        ],
+          "quux"],
         "skipIfMatch": [
           // urls
           "http://[^s]*",
