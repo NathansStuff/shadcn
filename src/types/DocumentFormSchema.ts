@@ -13,7 +13,6 @@ import { EStateCode } from '@/types/enums/EStateCode';
 export const DocumentFormSchema = z.object({
   documentName: z.string().nonempty(),
 
-  defaultSourceLink: z.string().nonempty(),
   defaultMetadata: z.object({
     general: z.object({
       sourceName: z.string().nonempty(), // eg full law name

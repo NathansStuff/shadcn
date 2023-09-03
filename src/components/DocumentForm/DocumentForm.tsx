@@ -3,6 +3,8 @@
 import { Control, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { sendDocument } from '@/actions';
+import { DocumentFormSchema } from '@/types';
 import {
   aiInfoTemplateCodes,
   componentTypeCodes,
@@ -24,7 +26,6 @@ import {
 } from '..';
 
 import { documentFormDefaults } from './documentFormDefaults';
-import { DocumentFormSchema } from './DocumentFormSchema';
 
 export function DocumentForm(): JSX.Element {
   const form = useForm<DocumentFormSchema>({
@@ -34,10 +35,11 @@ export function DocumentForm(): JSX.Element {
 
   function onSubmit(values: DocumentFormSchema): void {
     console.log(values);
+    sendDocument(values);
   }
 
   return (
-    <FlexCenterContainer>
+    <FlexCenterContainer className='pt-4 pb-20'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -107,7 +109,7 @@ function DefaultValuesSection({ control }: ControlProps): JSX.Element {
         {renderInputField(
           'Default Source Link',
           'Enter default source link',
-          'defaultSourceLink',
+          'defaultMetadata.general.sourceLink',
           control
         )}
         {renderInputField(
@@ -124,56 +126,60 @@ function DefaultValuesSection({ control }: ControlProps): JSX.Element {
 
 function MetadataSelectionFields({ control }: ControlProps): JSX.Element {
   return (
-    <FlexRowContainer>
-      {renderSelectField(
-        'Select what country this applies to',
-        'Country',
-        'defaultMetadata.general.countryCode',
-        countryCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select what state this applies to',
-        'State',
-        'defaultMetadata.general.stateCode',
-        stateCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select what industry this applies to',
-        'Industry',
-        'defaultMetadata.general.industry',
-        industryCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select what ai prompt template to apply',
-        'Ai Prompt Template',
-        'defaultMetadata.ai.aiTemplate',
-        aiInfoTemplateCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select what embed template to apply',
-        'Embed Template',
-        'defaultMetadata.embedded.embeddedTemplate',
-        embedTemplateCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select what UI component this will use',
-        'UI Component',
-        'defaultMetadata.ui.componentType',
-        componentTypeCodes,
-        control
-      )}
-      {renderSelectField(
-        'Select namespace (used for filtering results)',
-        'Namespace',
-        'defaultNamespace',
-        namespaceCodes,
-        control
-      )}
-    </FlexRowContainer>
+    <>
+      <FlexRowContainer>
+        {renderSelectField(
+          'Select what country this applies to',
+          'Country',
+          'defaultMetadata.general.countryCode',
+          countryCodes,
+          control
+        )}
+        {renderSelectField(
+          'Select what state this applies to',
+          'State',
+          'defaultMetadata.general.stateCode',
+          stateCodes,
+          control
+        )}
+        {renderSelectField(
+          'Select what industry this applies to',
+          'Industry',
+          'defaultMetadata.general.industry',
+          industryCodes,
+          control
+        )}
+        {renderSelectField(
+          'Select namespace (used for filtering results)',
+          'Namespace',
+          'defaultNamespace',
+          namespaceCodes,
+          control
+        )}
+      </FlexRowContainer>
+      <FlexRowContainer>
+        {renderSelectField(
+          'Select what ai prompt template to apply',
+          'Ai Prompt Template',
+          'defaultMetadata.ai.aiTemplate',
+          aiInfoTemplateCodes,
+          control
+        )}
+        {renderSelectField(
+          'Select what embed template to apply',
+          'Embed Template',
+          'defaultMetadata.embedded.embeddedTemplate',
+          embedTemplateCodes,
+          control
+        )}
+        {renderSelectField(
+          'Select what UI component this will use',
+          'UI Component',
+          'defaultMetadata.ui.componentType',
+          componentTypeCodes,
+          control
+        )}
+      </FlexRowContainer>
+    </>
   );
 }

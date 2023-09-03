@@ -90,6 +90,7 @@
           "langchain", // module => langchain,
           "loc", // from langchain
           "upserted", // from langchain
+          "axios", // module => axios
 
 
           // various
