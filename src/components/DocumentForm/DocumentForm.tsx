@@ -4,7 +4,7 @@ import { Control, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { sendDocument } from '@/actions';
-import { DocumentFormSchema } from '@/types';
+import { Document } from '@/types';
 import {
   aiInfoTemplateCodes,
   componentTypeCodes,
@@ -28,18 +28,18 @@ import {
 import { documentFormDefaults } from './documentFormDefaults';
 
 export function DocumentForm(): JSX.Element {
-  const form = useForm<DocumentFormSchema>({
-    resolver: zodResolver(DocumentFormSchema),
+  const form = useForm<Document>({
+    resolver: zodResolver(Document),
     defaultValues: documentFormDefaults,
   });
 
-  function onSubmit(values: DocumentFormSchema): void {
+  function onSubmit(values: Document): void {
     console.log(values);
     sendDocument(values);
   }
 
   return (
-    <FlexCenterContainer className='pt-4 pb-20'>
+    <FlexCenterContainer className='pb-20 pt-4'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -57,7 +57,7 @@ export function DocumentForm(): JSX.Element {
 export default DocumentForm;
 
 type ControlProps = {
-  control: Control<DocumentFormSchema>;
+  control: Control<Document>;
 };
 
 function DocumentValuesSection({ control }: ControlProps): JSX.Element {

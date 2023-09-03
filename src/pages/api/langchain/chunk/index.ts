@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { langchainChunkDataHandler } from '@/backend/features/langchain/langchainController';
-import { TryCatchMiddleware } from '@/backend/middleware/TryCatchMiddleware';
+import { TryCatchMiddleware } from '@/middleware';
 
 export default async function handler(
   req: NextApiRequest,

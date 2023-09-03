@@ -1,5 +1,7 @@
+import { WithId } from 'mongodb';
 import * as z from 'zod';
 
+import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from '@/constants';
 import {
   EAiInfoTemplate,
   EComponentType,
@@ -10,8 +12,9 @@ import {
 import { ENamespace } from '@/types/enums/ENamespace';
 import { EStateCode } from '@/types/enums/EStateCode';
 
-export const DocumentFormSchema = z.object({
+export const Document = z.object({
   documentName: z.string().nonempty(),
+  infoIds: z.array(z.string()).default([]),
 
   defaultMetadata: z.object({
     general: z.object({
@@ -37,8 +40,12 @@ export const DocumentFormSchema = z.object({
 
   // Chunk info
   fullText: z.string().nonempty(),
-  chunkSize: z.number(),
-  chunkOverlap: z.number(),
+  chunkSize: z.number().default(DEFAULT_CHUNK_SIZE),
+  chunkOverlap: z.number().default(DEFAULT_CHUNK_OVERLAP),
 });
 
-export type DocumentFormSchema = z.infer<typeof DocumentFormSchema>;
+export type Document = z.infer<typeof Document>;
+export type DocumentWithId = WithId<Document>;
+
+export const PartialDocument = Document.partial();
+export type PartialDocument = z.infer<typeof PartialDocument>;
