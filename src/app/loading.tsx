@@ -1,3 +1,5 @@
+'use client';
+
 import { PageContainer } from '@/components';
 import { Skeleton } from '@/components/ui/skeleton';
 
