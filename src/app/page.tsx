@@ -1,3 +1,5 @@
+'use client';
+
 import { ShoppingBag } from 'lucide-react';
 
 import { Button, PageContainer, ProductList } from '@/components';
