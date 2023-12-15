@@ -1,3 +1,4 @@
+export * from './AiTemplateForm';
 export * from './containers';
 export * from './DocumentForm';
 export * from './EmbedTemplateForm';

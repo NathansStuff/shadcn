@@ -18,8 +18,8 @@ export function Header(): JSX.Element {
       label: 'Embed Templates',
     },
     {
-      href: '/',
-      label: 'On Sale',
+      href: '/aiTemplate',
+      label: 'Ai Templates',
     },
   ];
 
