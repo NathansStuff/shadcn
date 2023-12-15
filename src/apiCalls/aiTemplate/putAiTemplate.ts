@@ -1,6 +1,6 @@
 import { AiTemplateWithId } from '@/types';
 
-import { updateRequest } from './fetch';
+import { updateRequest } from '../fetch';
 
 export async function putAiTemplate(
   template: AiTemplateWithId

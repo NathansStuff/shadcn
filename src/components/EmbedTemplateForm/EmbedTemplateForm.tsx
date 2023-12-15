@@ -2,6 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 
+import { createEmbedTemplateAction } from '@/actions/embedTemplate/createEmbedTemplateAction';
+import { deleteEmbedTemplateAction } from '@/actions/embedTemplate/deleteEmbedTemplateAction';
+import { updateEmbedTemplateAction } from '@/actions/embedTemplate/updateEmbedTemplateAction';
 import { EmbedTemplate, EmbedTemplateWithId } from '@/types';
 
 import { Button, Input, Label, Textarea } from '../ui';
@@ -19,18 +22,33 @@ export function EmbedTemplateForm({
     template: existingTemplate?.template || '',
   });
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>): void {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     if (existingTemplate) {
-      console.log('Updating existing template', embedTemplate);
       // Logic for updating an existing template
+      const updatedTemplate: EmbedTemplateWithId = {
+        _id: existingTemplate._id,
+        name: embedTemplate.name,
+        template: embedTemplate.template,
+      };
+
+      await updateEmbedTemplateAction(updatedTemplate);
     } else {
-      console.log('Creating new template', embedTemplate);
       // Logic for creating a new template
+      const newTemplate: EmbedTemplate = {
+        name: embedTemplate.name,
+        template: embedTemplate.template,
+      };
+      await createEmbedTemplateAction(newTemplate);
     }
   }
 
   const submitButtonText = existingTemplate ? 'Update' : 'Create';
+
+  async function handleDelete(): Promise<void> {
+    if (!existingTemplate) return;
+    await deleteEmbedTemplateAction(existingTemplate._id.toString());
+  }
 
   return (
     <form onSubmit={handleSubmit} className='w-full space-y-8'>
@@ -67,7 +85,14 @@ export function EmbedTemplateForm({
           className='h-40'
         />
       </div>
-      <Button type='submit'>{submitButtonText}</Button>
+      <div className='flex items-center justify-between'>
+        <Button type='submit'>{submitButtonText}</Button>
+        {existingTemplate && (
+          <Button onClick={handleDelete} type='button' variant='destructive'>
+            Delete
+          </Button>
+        )}
+      </div>
     </form>
   );
 }

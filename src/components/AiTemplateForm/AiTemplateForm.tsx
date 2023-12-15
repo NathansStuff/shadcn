@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 
-import { sendDeleteAiTemplate } from '@/actions/sendDeleteAiTemplate';
-import { sendNewAiTemplate } from '@/actions/sendNewAiTemplate';
-import { sendUpdateAiTemplate } from '@/actions/sendUpdateAiTemplate';
+import { createAiTemplateAction } from '@/actions/aiTemplate/createAiTemplateAction';
+import { deleteAiTemplateAction } from '@/actions/aiTemplate/deleteAiTemplateAction';
+import { updateAiTemplateAction } from '@/actions/aiTemplate/updateAiTemplateAction';
 import { AiTemplate, AiTemplateWithId } from '@/types';
 
 import { Button, Input, Label, Textarea } from '../ui';
@@ -25,7 +25,6 @@ export function AiTemplateForm({
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     if (existingTemplate) {
-      console.log('Updating existing template', AiTemplate);
       // Logic for updating an existing template
       const updatedTemplate: AiTemplateWithId = {
         _id: existingTemplate._id,
@@ -33,20 +32,20 @@ export function AiTemplateForm({
         template: AiTemplate.template,
       };
 
-      await sendUpdateAiTemplate(updatedTemplate);
+      await updateAiTemplateAction(updatedTemplate);
     } else {
       // Logic for creating a new template
       const newTemplate: AiTemplate = {
         name: AiTemplate.name,
         template: AiTemplate.template,
       };
-      await sendNewAiTemplate(newTemplate);
+      await createAiTemplateAction(newTemplate);
     }
   }
 
   async function handleDelete(): Promise<void> {
     if (!existingTemplate) return;
-    await sendDeleteAiTemplate(existingTemplate._id.toString());
+    await deleteAiTemplateAction(existingTemplate._id.toString());
   }
 
   const submitButtonText = existingTemplate ? 'Update' : 'Create';
@@ -89,7 +88,7 @@ export function AiTemplateForm({
       <div className='flex items-center justify-between'>
         <Button type='submit'>{submitButtonText}</Button>
         {existingTemplate && (
-          <Button onClick={handleDelete} variant='destructive'>
+          <Button onClick={handleDelete} type='button' variant='destructive'>
             Delete
           </Button>
         )}

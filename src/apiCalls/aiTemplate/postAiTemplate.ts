@@ -1,6 +1,6 @@
 import { AiTemplate, AiTemplateWithId } from '@/types';
 
-import { postRequest } from './fetch';
+import { postRequest } from '../fetch';
 
 export async function postAiTemplate(
   template: AiTemplate

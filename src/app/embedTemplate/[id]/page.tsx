@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { getAiTemplate } from '@/apiCalls/aiTemplate/getAiTemplate';
+import { getEmbedTemplate } from '@/apiCalls/embedTemplate/getEmbedTemplate';
 import {
-  AiTemplateForm,
+  EmbedTemplateForm,
   FlexCenterContainer,
   PageContainer,
 } from '@/components';
@@ -11,10 +11,10 @@ type Props = {
   params: { id: string };
 };
 
-async function ExistingAiTemplatePage({
+async function ExistingEmbedTemplatePage({
   params: { id },
 }: Props): Promise<JSX.Element> {
-  const template = await getAiTemplate(id);
+  const template = await getEmbedTemplate(id);
   if (!template) {
     return <div>Template not found</div>;
   }
@@ -29,10 +29,10 @@ async function ExistingAiTemplatePage({
           Given a chunk of text, we will want to contextualize it to give it a
           better match.
         </p>
-        <AiTemplateForm existingTemplate={template} />
+        <EmbedTemplateForm existingTemplate={template} />
       </FlexCenterContainer>
     </PageContainer>
   );
 }
 
-export default ExistingAiTemplatePage;
+export default ExistingEmbedTemplatePage;

@@ -3,6 +3,9 @@ import assert from 'assert';
 assert.ok('NEXT_PUBLIC_ENV', 'NEXT_PUBLIC_ENV is not defined');
 export const NEXT_PUBLIC_ENV = process.env.NEXT_PUBLIC_ENV || '';
 
+assert.ok('NEXT_PUBLIC_BASE_URL', 'NEXT_PUBLIC_BASE_URL is not defined');
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
+
 // ***** Chunks *****
 export const DEFAULT_CHUNK_SIZE = 2000;
 export const DEFAULT_CHUNK_OVERLAP = 100;
