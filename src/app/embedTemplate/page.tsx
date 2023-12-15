@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { DocumentForm, PageContainer } from '@/components';
+import { getAllEmbedTemplates } from '@/apiCalls/embedTemplate/getAllEmbedTemplates';
+import { PageContainer, TemplatesList } from '@/components';
 
-function EmbedTemplatePage(): JSX.Element {
+async function EmbedTemplatePage(): Promise<JSX.Element> {
+  const templates = await getAllEmbedTemplates();
+
   return (
     <PageContainer>
-      <DocumentForm />
+      <TemplatesList templates={templates} type='embed' />
     </PageContainer>
   );
 }

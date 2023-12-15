@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { DocumentForm, PageContainer } from '@/components';
+import { getAllAiTemplates } from '@/apiCalls/aiTemplate/getAllAiTemplates';
+import { PageContainer, TemplatesList } from '@/components';
 
-function EmbedTemplatePage(): JSX.Element {
+async function AiTemplatePage(): Promise<JSX.Element> {
+  const templates = await getAllAiTemplates();
+
   return (
     <PageContainer>
-      <DocumentForm />
+      <TemplatesList templates={templates} type='ai' />
     </PageContainer>
   );
 }
 
-export default EmbedTemplatePage;
+export default AiTemplatePage;

@@ -6,4 +6,5 @@ export * from './form';
 export * from './Header';
 export * from './Login';
 export * from './ProductList';
+export * from './TemplatesList';
 export * from './ui';
