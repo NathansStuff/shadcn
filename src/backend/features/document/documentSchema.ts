@@ -2,10 +2,8 @@ import { Schema } from 'mongoose';
 
 import {
   DocumentWithId,
-  EAiInfoTemplate,
   EComponentType,
   ECountryCode,
-  EEmbedTemplate,
   EIndustry,
   EStateCode,
 } from '@/types';
@@ -42,22 +40,18 @@ export const DocumentSchema = new Schema<DocumentWithId>(
           enum: EIndustry,
         },
       },
-      ai: {
-        aiTemplate: {
+      templates: {
+        aiTemplateId: {
           type: String,
           required: true,
-          enum: EAiInfoTemplate,
         },
-      },
-      embedded: {
-        embeddedTemplate: {
+        embeddedTemplateId: {
           type: String,
           required: true,
-          enum: EEmbedTemplate,
         },
       },
       ui: {
-        uiTitle: {
+        title: {
           type: String,
           required: true,
         },
@@ -68,8 +62,6 @@ export const DocumentSchema = new Schema<DocumentWithId>(
         },
       },
     },
-
-    defaultNamespace: { type: String, required: true },
 
     // Chunk info
     fullText: { type: String, required: true },

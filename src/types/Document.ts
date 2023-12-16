@@ -2,20 +2,11 @@ import { WithId } from 'mongodb';
 import * as z from 'zod';
 
 import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from '@/constants';
-import {
-  EAiInfoTemplate,
-  EComponentType,
-  ECountryCode,
-  EEmbedTemplate,
-  EIndustry,
-} from '@/types/enums';
-import { ENamespace } from '@/types/enums/ENamespace';
+import { EComponentType, ECountryCode, EIndustry } from '@/types/enums';
 import { EStateCode } from '@/types/enums/EStateCode';
 
 export const Document = z.object({
   documentName: z.string().nonempty(),
-  infoIds: z.array(z.string()).default([]),
-
   defaultMetadata: z.object({
     general: z.object({
       sourceName: z.string().nonempty(), // eg full law name
@@ -24,24 +15,20 @@ export const Document = z.object({
       stateCode: z.nativeEnum(EStateCode),
       industry: z.nativeEnum(EIndustry),
     }),
-    ai: z.object({
-      aiTemplate: z.nativeEnum(EAiInfoTemplate), // eg Standard - what template was used to take text => aiText
-    }),
-    embedded: z.object({
-      embeddedTemplate: z.nativeEnum(EEmbedTemplate), // eg LawReference => Used for building the vector text from the chunkedText
+    templates: z.object({
+      aiTemplateId: z.string().nonempty(), // eg Standard - what template was used to take text => aiText
+      embeddedTemplateId: z.string().nonempty(), // eg LawReference => Used for building the vector text from the chunkedText
     }),
     ui: z.object({
-      uiTitle: z.string().nonempty(), // title, user facing
+      title: z.string().nonempty(), // title, user facing
       componentType: z.nativeEnum(EComponentType), // eg Passage => Used for deciding UI component
     }),
   }),
-
-  defaultNamespace: z.nativeEnum(ENamespace),
-
   // Chunk info
   fullText: z.string().nonempty(),
   chunkSize: z.number().default(DEFAULT_CHUNK_SIZE),
   chunkOverlap: z.number().default(DEFAULT_CHUNK_OVERLAP),
+  infoIds: z.array(z.string()).default([]),
 });
 
 export type Document = z.infer<typeof Document>;

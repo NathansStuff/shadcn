@@ -75,15 +75,3 @@ export async function deleteDocumentByIdHandler(
   const message = `Document with id ${safeId.id} deleted`;
   res.status(204).json({ message });
 }
-
-// // Get Document and all its Info
-// export async function getInfosByDocumentIdHandler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<DocumentWithInfoIds | null>
-// ): Promise<void> {
-//   const safeId = ParamsWithId.parse(req.params);
-//   const response = await getInfosByDocumentId(safeId.id);
-//   if (!response) throw new BadRequestError('Document not found');
-
-//   res.status(200).json(response);
-// }
