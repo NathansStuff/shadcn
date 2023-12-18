@@ -1,20 +1,16 @@
-import { Document } from '@/types';
+import { DocumentWithId } from '@/types';
 
 import { getRequest } from '.';
 
-export async function getDocument(
-  id: string
-): Promise<{ document: Document | null; success: boolean }> {
+export async function getDocument(id: string): Promise<DocumentWithId | null> {
   try {
-    const response = await getRequest<Document | null>(
+    const response = await getRequest<DocumentWithId | null>(
       `http://localhost:3000/api/document/${id}`
     );
     const document = response.data;
 
-    const success = Document.safeParse(document).success;
-
-    return { document, success };
+    return document;
   } catch (error) {
-    return { document: null, success: false };
+    return null;
   }
 }

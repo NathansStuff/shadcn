@@ -1,14 +1,12 @@
 import { BASE_URL } from '@/constants';
-import { EmbedTemplateWithId } from '@/types';
+import { DocumentWithId } from '@/types';
 
 import { getRequest } from '../fetch';
 
-export async function getDocument(
-  id: string
-): Promise<EmbedTemplateWithId | null> {
+export async function getDocument(id: string): Promise<DocumentWithId | null> {
   try {
-    const response = await getRequest<EmbedTemplateWithId | null>(
-      `${BASE_URL}/api/embedTemplate/${id}`
+    const response = await getRequest<DocumentWithId | null>(
+      `${BASE_URL}/api/document/${id}`
     );
 
     return response.data;

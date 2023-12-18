@@ -5,6 +5,8 @@ export * from './DocumentsList';
 export * from './EmbedTemplateForm';
 export * from './form';
 export * from './Header';
+export * from './LabeledInput';
+export * from './LabeledTextArea';
 export * from './Login';
 export * from './ProductList';
 export * from './TemplatesList';

@@ -5,7 +5,7 @@ import { postRequest } from '../fetch';
 export async function postDocument(
   template: EmbedTemplate
 ): Promise<DocumentWithId> {
-  const res = await postRequest<DocumentWithId>('/api/documents', template);
+  const res = await postRequest<DocumentWithId>('/api/document', template);
 
   return res.data;
 }

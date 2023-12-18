@@ -1,58 +1,49 @@
-import { Control, FieldValues, Path } from 'react-hook-form';
+import React from 'react';
 
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ISelectOption } from '@/types';
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '..';
-interface SelectFieldProps<T extends FieldValues> {
-  label: string;
-  placeholder: string;
-  name: Path<T>;
-  control: Control<T>;
-  options: ISelectOption[];
-}
+import { Label } from '..';
 
-export function SelectField<T extends FieldValues>(
-  props: SelectFieldProps<T>
-): JSX.Element {
-  const { label, placeholder, name, control, options } = props;
+export function SelectField({
+  label,
+  options,
+  value,
+  onClick,
+}: {
+  label: string;
+  options: ISelectOption[];
+  value: string;
+  onClick: (value: string) => void;
+}): JSX.Element {
   return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }): JSX.Element => (
-        <FormItem className='w-full'>
-          <FormLabel>{label}</FormLabel>
-          <Select
-            onValueChange={field.onChange}
-            defaultValue={field.value as string}
-          >
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {options.map((option, i) => (
-                <SelectItem key={i} value={option.value}>
-                  {option.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <div className='flex w-full flex-col space-y-2 '>
+      <Label>{label}</Label>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant='outline'>{value}</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className='w-96'>
+          {options.map((item, index) => (
+            <React.Fragment key={index}>
+              <DropdownMenuItem
+                onClick={(): void => onClick(item.value)}
+                className={`w-full cursor-pointer ${
+                  item.value === value ? 'bg-secondary/40' : ''
+                }`}
+              >
+                {item.value}
+              </DropdownMenuItem>
+            </React.Fragment>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

@@ -28,7 +28,6 @@ export const Document = z.object({
   fullText: z.string().nonempty(),
   chunkSize: z.number().default(DEFAULT_CHUNK_SIZE),
   chunkOverlap: z.number().default(DEFAULT_CHUNK_OVERLAP),
-  infoIds: z.array(z.string()).default([]),
 });
 
 export type Document = z.infer<typeof Document>;

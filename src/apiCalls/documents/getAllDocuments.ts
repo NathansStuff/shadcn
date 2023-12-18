@@ -6,7 +6,7 @@ import { getRequest } from '../fetch';
 export async function getAllDocuments(): Promise<DocumentWithId[] | null> {
   try {
     const response = await getRequest<DocumentWithId[] | null>(
-      `${BASE_URL}/api/documents`
+      `${BASE_URL}/api/document`
     );
 
     return response.data;

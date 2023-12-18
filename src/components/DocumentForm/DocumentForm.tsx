@@ -7,15 +7,20 @@ import { deleteDocumentAction } from '@/actions/documents/deleteDocumentAction';
 import { updateDocumentAction } from '@/actions/documents/updateDocumentAction';
 import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from '@/constants';
 import {
+  componentTypeCodes,
+  countryCodes,
   Document,
   DocumentWithId,
   EComponentType,
   ECountryCode,
   EIndustry,
   EStateCode,
+  industryCodes,
+  ISelectOption,
+  stateCodes,
 } from '@/types';
 
-import { Button, Input, Label } from '..';
+import { Button, LabeledInput, LabeledTextArea, SelectField } from '..';
 
 interface Props {
   existingTemplate?: DocumentWithId;
@@ -23,7 +28,7 @@ interface Props {
 
 export function DocumentForm({ existingTemplate }: Props): JSX.Element {
   // Initialize state with existingTemplate if available, otherwise default to empty values
-  const [embedTemplate, setEmbedTemplate] = useState<Document>({
+  const [document, setDocument] = useState<Document>({
     documentName: existingTemplate?.documentName || '',
     defaultMetadata: existingTemplate?.defaultMetadata || {
       general: existingTemplate?.defaultMetadata?.general || {
@@ -59,8 +64,37 @@ export function DocumentForm({ existingTemplate }: Props): JSX.Element {
     fullText: existingTemplate?.fullText || '',
     chunkSize: existingTemplate?.chunkSize || DEFAULT_CHUNK_SIZE,
     chunkOverlap: existingTemplate?.chunkOverlap || DEFAULT_CHUNK_OVERLAP,
-    infoIds: existingTemplate?.infoIds || [],
   });
+
+  // todo: pull these from api
+  const aiTemplateIds: ISelectOption[] = [
+    {
+      name: 'Template 1',
+      value: '1',
+    },
+    {
+      name: 'Template 2',
+      value: '2',
+    },
+    {
+      name: 'Template 3',
+      value: '3',
+    },
+  ];
+  const embeddedTemplateIds: ISelectOption[] = [
+    {
+      name: 'Template 1',
+      value: '1',
+    },
+    {
+      name: 'Template 2',
+      value: '2',
+    },
+    {
+      name: 'Template 3',
+      value: '3',
+    },
+  ];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
@@ -68,13 +102,13 @@ export function DocumentForm({ existingTemplate }: Props): JSX.Element {
       // Logic for updating an existing template
       const updatedTemplate: DocumentWithId = {
         _id: existingTemplate._id,
-        ...embedTemplate,
+        ...document,
       };
 
       await updateDocumentAction(updatedTemplate);
     } else {
       // Logic for creating a new template
-      await createDocumentAction(embedTemplate);
+      await createDocumentAction(document);
     }
   }
 
@@ -85,20 +119,223 @@ export function DocumentForm({ existingTemplate }: Props): JSX.Element {
     await deleteDocumentAction(existingTemplate._id.toString());
   }
 
+  function handleStateClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        general: {
+          ...document.defaultMetadata.general,
+          stateCode: e as EStateCode,
+        },
+      },
+    });
+  }
+
+  function handleCountryClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        general: {
+          ...document.defaultMetadata.general,
+          countryCode: e as ECountryCode,
+        },
+      },
+    });
+  }
+
+  function handleIndustryClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        general: {
+          ...document.defaultMetadata.general,
+          industry: e as EIndustry,
+        },
+      },
+    });
+  }
+
+  function handleAiTemplateClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        templates: {
+          ...document.defaultMetadata.templates,
+          aiTemplateId: e as string,
+        },
+      },
+    });
+  }
+
+  function handleEmbeddedTemplateClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        templates: {
+          ...document.defaultMetadata.templates,
+          embeddedTemplateId: e as string,
+        },
+      },
+    });
+  }
+
+  function handleComponentTypeClick(e: string): void {
+    setDocument({
+      ...document,
+      defaultMetadata: {
+        ...document.defaultMetadata,
+        ui: {
+          ...document.defaultMetadata.ui,
+          componentType: e as EComponentType,
+        },
+      },
+    });
+  }
+
   return (
     <form onSubmit={handleSubmit} className='w-full space-y-8'>
       <div>
-        <Label htmlFor='name'>Document Name</Label>
-        <Input
+        <LabeledInput
+          label='Document Name'
           id='name'
           type='text'
-          value={embedTemplate.documentName}
+          value={document.documentName}
           onChange={(e): void =>
-            setEmbedTemplate({ ...embedTemplate, documentName: e.target.value })
+            setDocument({ ...document, documentName: e.target.value })
+          }
+        />
+        <h1 className='text-center text-3xl '>Metadata</h1>
+        <h3 className='text-center text-xl'>General</h3>
+        <LabeledInput
+          label='Source Name'
+          id='name'
+          type='text'
+          value={document.defaultMetadata.general.sourceName}
+          onChange={(e): void =>
+            setDocument({
+              ...document,
+              defaultMetadata: {
+                ...document.defaultMetadata,
+                general: {
+                  ...document.defaultMetadata.general,
+                  sourceName: e.target.value,
+                },
+              },
+            })
+          }
+        />
+        <LabeledInput
+          label='Source Link'
+          id='name'
+          type='text'
+          value={document.defaultMetadata.general.sourceLink}
+          onChange={(e): void =>
+            setDocument({
+              ...document,
+              defaultMetadata: {
+                ...document.defaultMetadata,
+                general: {
+                  ...document.defaultMetadata.general,
+                  sourceLink: e.target.value,
+                },
+              },
+            })
           }
         />
       </div>
-
+      <div className='flex w-full space-x-4'>
+        <SelectField
+          label='Select what country this applies to'
+          options={countryCodes}
+          onClick={handleCountryClick}
+          value={document.defaultMetadata.general.countryCode}
+        />
+        <SelectField
+          label='Select what state this applies to'
+          options={stateCodes}
+          onClick={handleStateClick}
+          value={document.defaultMetadata.general.stateCode}
+        />
+        <SelectField
+          label='Select what industry this applies to'
+          options={industryCodes}
+          onClick={handleIndustryClick}
+          value={document.defaultMetadata.general.industry}
+        />
+      </div>
+      <h3 className='text-center text-xl'>Templates</h3>
+      <div className='flex-center w-full space-x-4'>
+        <SelectField
+          label='Select what ai template this applies to'
+          options={aiTemplateIds}
+          onClick={handleAiTemplateClick}
+          value={document.defaultMetadata.templates.aiTemplateId}
+        />
+        <SelectField
+          label='Select what embedded template this applies to'
+          options={embeddedTemplateIds}
+          onClick={handleEmbeddedTemplateClick}
+          value={document.defaultMetadata.templates.embeddedTemplateId}
+        />
+      </div>
+      <h3 className='text-center text-xl'>UI</h3>
+      <div className='flex-center space-x-4'>
+        <LabeledInput
+          label='Title'
+          id='name'
+          type='text'
+          value={document.defaultMetadata.ui.title}
+          onChange={(e): void =>
+            setDocument({
+              ...document,
+              defaultMetadata: {
+                ...document.defaultMetadata,
+                ui: { ...document.defaultMetadata.ui, title: e.target.value },
+              },
+            })
+          }
+          className='w-full'
+        />
+        <SelectField
+          label='Select what embedded template this applies to'
+          options={componentTypeCodes}
+          onClick={handleComponentTypeClick}
+          value={document.defaultMetadata.ui.componentType}
+        />
+      </div>
+      <h3 className='text-center text-xl'>Text</h3>
+      <LabeledTextArea
+        label='Full Text'
+        id='name'
+        value={document.fullText}
+        onChange={(e): void =>
+          setDocument({ ...document, fullText: e.target.value })
+        }
+        className='h-96'
+      />
+      <LabeledInput
+        label='Chunk Size'
+        id='name'
+        type='text'
+        value={document.chunkSize}
+        onChange={(e): void =>
+          setDocument({ ...document, chunkSize: Number(e.target.value) })
+        }
+      />
+      <LabeledInput
+        label='Chunk Overlap'
+        id='name'
+        type='text'
+        value={document.chunkOverlap}
+        onChange={(e): void =>
+          setDocument({ ...document, chunkOverlap: Number(e.target.value) })
+        }
+      />
       <div className='flex items-center justify-between'>
         <Button type='submit'>{submitButtonText}</Button>
         {existingTemplate && (

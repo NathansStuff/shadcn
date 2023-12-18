@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DocumentForm, FlexCenterContainer, PageContainer } from '@/components';
 
-function NewEmbedTemplatePage(): JSX.Element {
+function NewDocumentPage(): JSX.Element {
   return (
     <PageContainer>
       <FlexCenterContainer className='pb-20 pt-4'>
@@ -18,4 +18,4 @@ function NewEmbedTemplatePage(): JSX.Element {
   );
 }
 
-export default NewEmbedTemplatePage;
+export default NewDocumentPage;
