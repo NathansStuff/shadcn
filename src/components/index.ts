@@ -1,6 +1,7 @@
 export * from './AiTemplateForm';
 export * from './containers';
 export * from './DocumentForm';
+export * from './DocumentsList';
 export * from './EmbedTemplateForm';
 export * from './form';
 export * from './Header';
