@@ -4,6 +4,7 @@ export * from './Chunk';
 export * from './Document';
 export * from './EmbedTemplate';
 export * from './enums';
+export * from './Info';
 export * from './ISelectOption';
 export * from './ParamsWithId';
 export * from './Product';
