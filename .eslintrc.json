@@ -91,7 +91,7 @@
           "loc", // from langchain
           "upserted", // from langchain
           "axios", // module => axios
-
+          "num", // from mongo
 
           // various
           "Na", // in NaN - NaN is mishandled by the plugin

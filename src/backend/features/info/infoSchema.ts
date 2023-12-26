@@ -16,6 +16,18 @@ export const InfoSchema = new Schema<InfoWithId>(
       type: String,
       required: true,
     },
+    countryCode: {
+      type: String,
+      required: true,
+    },
+    stateCode: {
+      type: String,
+      required: true,
+    },
+    industry: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

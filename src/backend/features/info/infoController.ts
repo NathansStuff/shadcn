@@ -7,12 +7,14 @@ import {
   ParamsWithId,
   PartialInfoRequest,
 } from '@/types';
+import { QueryRequest } from '@/types/QueryRequest';
 
 import {
   createNewInfo,
   deleteInfo,
   getAllInfos,
   getInfoById,
+  queryInfo,
   updateInfo,
 } from './infoService';
 
@@ -74,4 +76,18 @@ export async function deleteInfoByIdHandler(
   if (response === null) throw new BadRequestError('Info not found');
   const message = `Info with id ${safeId.id} deleted`;
   res.status(204).json({ message });
+}
+
+// Query Info
+export async function queryInfoHandler(
+  req: NextApiRequest,
+  res: NextApiResponse<InfoWithId[] | null>
+): Promise<void> {
+  const { text, stateCode, countryCode, industry } = QueryRequest.parse(
+    req.body
+  );
+
+  const response = await queryInfo(text, stateCode, countryCode, industry);
+
+  res.status(200).json(response);
 }

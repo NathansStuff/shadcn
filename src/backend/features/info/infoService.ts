@@ -1,11 +1,19 @@
 import { embedOpenaiQuery } from '@/backend/features/langchain/langchainService';
-import { Info, InfoRequest, InfoWithId } from '@/types';
+import {
+  ECountryCode,
+  EIndustry,
+  EStateCode,
+  Info,
+  InfoRequest,
+  InfoWithId,
+} from '@/types';
 
 import {
   createInfo,
   deleteInfoById,
   findAllInfos,
   findInfoById,
+  queryInfoByVector,
   updateInfoById,
 } from './infoDal';
 
@@ -47,4 +55,21 @@ export async function updateInfo(
 export async function deleteInfo(id: string): Promise<void | null> {
   const response = await deleteInfoById(id);
   return response;
+}
+
+// Query Info
+export async function queryInfo(
+  text: string,
+  stateCode: EStateCode,
+  countryCode: ECountryCode,
+  industry: EIndustry
+): Promise<InfoWithId[] | null> {
+  const vectors = await embedOpenaiQuery(text);
+  const result = await queryInfoByVector(
+    vectors,
+    stateCode,
+    countryCode,
+    industry
+  );
+  return result;
 }
