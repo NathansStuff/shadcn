@@ -13,6 +13,7 @@ import {
   createNewInfo,
   deleteInfo,
   getAllInfos,
+  getInfoByDocumentId,
   getInfoById,
   queryInfo,
   updateInfo,
@@ -76,6 +77,16 @@ export async function deleteInfoByIdHandler(
   if (response === null) throw new BadRequestError('Info not found');
   const message = `Info with id ${safeId.id} deleted`;
   res.status(204).json({ message });
+}
+
+// Find Info by DocumentId
+export async function getInfoByDocumentIdHandler(
+  req: NextApiRequest,
+  res: NextApiResponse<InfoWithId[] | null>
+): Promise<void> {
+  const safeDocumentId = ParamsWithId.parse(req.query);
+  const response = await getInfoByDocumentId(safeDocumentId.id);
+  res.status(200).json(response);
 }
 
 // Query Info

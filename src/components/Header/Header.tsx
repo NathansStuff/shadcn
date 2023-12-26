@@ -10,7 +10,7 @@ import ThemeButton from './ThemeButton';
 export function Header(): JSX.Element {
   const routes = [
     {
-      href: '/document',
+      href: '/documents',
       label: 'Documents',
     },
     {

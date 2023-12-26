@@ -38,6 +38,14 @@ export async function deleteInfoById(id: string): Promise<void | null> {
   await InfoModel.findByIdAndDelete(id);
 }
 
+// Find Info by DocumentId
+export async function findInfoByDocumentId(
+  documentId: string
+): Promise<InfoWithId[] | null> {
+  await mongoDBConnect();
+  return await InfoModel.find({ documentId });
+}
+
 // Query Info
 export async function queryInfoByVector(
   vectors: number[],

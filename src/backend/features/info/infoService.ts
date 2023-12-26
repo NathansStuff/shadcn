@@ -12,6 +12,7 @@ import {
   createInfo,
   deleteInfoById,
   findAllInfos,
+  findInfoByDocumentId,
   findInfoById,
   queryInfoByVector,
   updateInfoById,
@@ -55,6 +56,14 @@ export async function updateInfo(
 export async function deleteInfo(id: string): Promise<void | null> {
   const response = await deleteInfoById(id);
   return response;
+}
+
+// Find Info by DocumentId
+export async function getInfoByDocumentId(
+  documentId: string
+): Promise<InfoWithId[] | null> {
+  const Infos = await findInfoByDocumentId(documentId);
+  return Infos;
 }
 
 // Query Info
